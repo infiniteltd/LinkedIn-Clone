@@ -1,6 +1,6 @@
-import { initializeApp, getApps } from "firebase/app";
+import { initializeApp } from "firebase/app";
 import { serverTimestamp, getFirestore } from 'firebase/firestore';
-import { getAuth } from 'firebase/auth';
+import { getAuth } from "firebase/auth";
 
 const firebaseConfig = {
     apiKey: "AIzaSyBQCzGNvHh4wNKndYRIxIeAoxL8vO4jB0o",
@@ -11,21 +11,11 @@ const firebaseConfig = {
     appId: "1:883784666483:web:e9de1a31998e473c9c0906"
 };
 
-let app;
-try {
-    if (!getApps().length) {
-        app = initializeApp(firebaseConfig);
+const app = initializeApp(firebaseConfig);
 
-        console.log('Firebase was successfully init');
-    }
-} catch (err) {
-    console.log(err);
-    if (/already exists/.test(err.message)) {
-        console.error('Firebase initialization error', err.stack);
-    }
-}
 const db = getFirestore(app);
 const auth = getAuth(app);
+
 
 export { db, auth, serverTimestamp };
 
