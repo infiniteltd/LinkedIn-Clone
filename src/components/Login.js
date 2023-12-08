@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import './Login.css';
 import { auth } from '../firebase';
-import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
+import { createUserWithEmailAndPassword, updateProfile, signInWithEmailAndPassword } from 'firebase/auth';
 import { login } from '../features/userSlice';
 
 function Login() {
@@ -15,19 +15,19 @@ function Login() {
     const loginToApp = (e) => {
         e.preventDefault();
 
-        // auth.signInWithEmailAndPassword(email, password)
-        //     .then((userAuth) => {
-        //         dispatch(login({
-        //             email: userAuth.user.email,
-        //             uid: userAuth.user.uid,
-        //             displayName: userAuth.user.displayName,
-        //             photoUrl: userAuth.user.photoURL,
-        //         }));
-        //     })
-        //     .catch(error => {
-        //         alert(error);
-        //     });
-
+        signInWithEmailAndPassword(auth, email, password)
+            .then((userCredential) => {
+                const userAuth = userCredential.user;
+                dispatch(login({
+                    email: userAuth.email,
+                    uid: userAuth.uid,
+                    displayName: userAuth.displayName,
+                    profileUrl: userAuth.photoURL,
+                }));
+            })
+            .catch(error => {
+                alert(error);
+            });
     };
 
     const register = () => {
@@ -36,28 +36,36 @@ function Login() {
         }
 
         createUserWithEmailAndPassword(auth, email, password)
-            .then((userAuth) => {
-                userAuth.user({
+            .then(async (userAuth) => {
+                // Create a userCredential object
+                const userCredential = {
+                    user: userAuth.user,
+                    credential: userAuth.credential,
+                };
+
+                // Update the user profile
+                await updateProfile(userCredential.user, {
                     displayName: name,
                     photoURL: profilePic,
-                }).then(() => {
-                    dispatch(login({
-                        email: userAuth.user.email,
-                        uid: userAuth.user.uid,
-                        displayName: name,
-                        photoURL: profilePic,
-                    }));
                 });
+                dispatch(login({
+                    email: userCredential.user.email,
+                    uid: userCredential.user.uid,
+                    displayName: name,
+                    photoURL: profilePic,
+                }));
             })
             .catch(error => {
                 alert(error);
             });
     };
+
+
     return (
         <div className='login'>
             <img src='https://upload.wikimedia.org/wikipedia/commons/thumb/0/01/LinkedIn_Logo.svg/291px-LinkedIn_Logo.svg.png?20170711102837' alt='linkedIn logo' />
 
-            <form onSubmit={loginToApp}>
+            <form onSubmit={e => e.preventDefault()}>
                 <input
                     value={name}
                     onChange={e => setName(e.target.value)} type='text'
@@ -82,7 +90,7 @@ function Login() {
                     placeholder='Password'
                 />
 
-                <button type='submit'>Sign In</button>
+                <button type='submit' onClick={loginToApp}>Sign In</button>
             </form>
 
             <p>Do not have an account yet?{' '}

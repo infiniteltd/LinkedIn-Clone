@@ -30,7 +30,7 @@ function Feed() {
 
 
     const sendPost = (e) => {
-        // e.preventDefault();
+        e.preventDefault();
 
         addDoc(colRef, {
             name: 'Chris Sampson',
@@ -43,9 +43,6 @@ function Feed() {
         setInput('');
     };
 
-    const getInput = e => {
-        setInput(e.target.value);
-    };
 
     return (
         <div className='feed'>
@@ -53,7 +50,7 @@ function Feed() {
                 <div className="feed__input">
                     <CreateIcon />
                     <form>
-                        <input value={input} onChange={getInput} type='text' placeholder='Start a post' />
+                        <input value={input} onChange={e => setInput(e.target.value)} type='text' placeholder='Start a post' />
                         <button onClick={sendPost} type='submit'>Post</button>
                     </form>
                 </div>
@@ -76,12 +73,6 @@ function Feed() {
                     />
                 );
             })}
-
-            {/* <Post
-                name='Chris Sampson'
-                description='This is a test'
-                message='Wow this worked'
-            /> */}
         </div>
     );
 }

@@ -2,6 +2,7 @@ import { initializeApp } from "firebase/app";
 import { serverTimestamp, getFirestore } from 'firebase/firestore';
 import { getAuth } from "firebase/auth";
 
+
 const firebaseConfig = {
     apiKey: "AIzaSyBQCzGNvHh4wNKndYRIxIeAoxL8vO4jB0o",
     authDomain: "linkedin-clone-59f96.firebaseapp.com",
@@ -15,6 +16,7 @@ const app = initializeApp(firebaseConfig);
 
 const db = getFirestore(app);
 const auth = getAuth(app);
+
 
 
 export { db, auth, serverTimestamp };
