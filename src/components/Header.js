@@ -15,7 +15,6 @@ function Header() {
     const logoutApp = () => {
         dispatch(logout());
         auth.signOut();
-
     };
 
     return (
@@ -35,7 +34,7 @@ function Header() {
                 <HeaderOption Icon={BusinessCenterRounded} title='Jobs' />
                 <HeaderOption Icon={ChatRounded} title='Messaging' />
                 <HeaderOption Icon={NotificationsRounded} title='Notifications' />
-                <HeaderOption avatar='https://media.licdn.com/dms/image/D4D03AQFgdM_JlMkoQg/profile-displayphoto-shrink_800_800/0/1691798339846?e=1706745600&v=beta&t=0yXustDZ6HNiIh8Jh57tAq1c9s6eqEjS0DtV8uXzK1I' title='Me'
+                <HeaderOption avatar={true} title='Me'
                     onClick={logoutApp}
                 />
             </div>
