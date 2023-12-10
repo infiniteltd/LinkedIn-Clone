@@ -5,8 +5,10 @@ import './Sidebar.css';
 import { Avatar } from '@mui/material';
 
 function Sidebar() {
-
     const user = useSelector(selectUser);
+
+    // Check if user and user.displayName are not null or undefined
+    const displayNameInitial = user?.displayName ? user.displayName[0] : '';
 
     const recentItem = (topic) => (
         <div className='sidebar__recentItem'>
@@ -14,11 +16,12 @@ function Sidebar() {
             <p>{topic}</p>
         </div>
     );
+
     return (
         <div className='sidebar'>
             <div className="sidebar__top">
                 <img src='https://media.istockphoto.com/id/1473117037/photo/3d-liquid-colorful-paint-background.jpg?s=612x612&w=0&k=20&c=Xg4jWPWGzJyYYwXjgjy9x_NAbEx5VXPiB0mm738rkII=' alt='' />
-                <Avatar src={user.photoUrl} className='sidebar__avatar'>{user.displayName[0]}</Avatar>
+                <Avatar src={user.photoUrl} className='sidebar__avatar'>{displayNameInitial}</Avatar>
                 <h2>{user.displayName}</h2>
                 <h4>{user.email}</h4>
             </div>
@@ -42,7 +45,6 @@ function Sidebar() {
                 {recentItem('design')}
                 {recentItem('developer')}
             </div>
-
         </div>
     );
 }

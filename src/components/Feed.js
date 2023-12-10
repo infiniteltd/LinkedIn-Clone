@@ -21,7 +21,7 @@ function Feed() {
 
     useEffect(() => {
         const fetchData = async () => {
-            const snapshot = await getDocs(query(collection(db, 'posts'), orderBy('timestamp', 'desc')));
+            const snapshot = await getDocs(query(colRef, orderBy('timestamp', 'desc')));
 
             setPosts(snapshot.docs.map((doc) => ({
                 id: doc.id,
@@ -30,7 +30,8 @@ function Feed() {
         };
 
         fetchData();
-    }, []);
+    }, [colRef]);
+
 
 
     const sendPost = (e) => {
