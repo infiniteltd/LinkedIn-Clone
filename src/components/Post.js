@@ -5,10 +5,12 @@ import { Avatar } from "@mui/material";
 import { ChatOutlined, SendOutlined, ShareOutlined, ThumbUpAltOutlined } from '@mui/icons-material';
 
 const Post = forwardRef(({ name, description, message, photoUrl }, ref) => {
+    const displayNameInitial = name ? name[0] : ''; // Checking if name is not null or undefined
+
     return (
         <div ref={ref} className='post'>
             <div className="post__header">
-                <Avatar src={photoUrl}>{name[0]}</Avatar>
+                <Avatar src={photoUrl}>{displayNameInitial}</Avatar>
                 <div className="post__info">
                     <h2>{name}</h2>
                     <p>{description}</p>
